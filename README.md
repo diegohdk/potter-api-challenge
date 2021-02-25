@@ -341,9 +341,9 @@ npm run start
 
 ---
 
-And that's it! Now you have a fully working REST API.
+And that's it! Now we have a fully working REST API.
 
-But if you want to go further, you can dokerize the API with the following 
+But if you want to go further, you can dockerize the API with the following 
 commands.
 
 ## Build the image
@@ -372,7 +372,7 @@ npm run docker-stop
 
 ## See container logs
 
-The logs will be streamed as with `tail -f`.
+The logs will be streamed with `-f`.
 
 ```
 npm run docker-logs
