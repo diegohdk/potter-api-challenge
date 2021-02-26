@@ -393,3 +393,5 @@ npm run docker-exec
 - Add authentication
 - Add tests
 - Improve some validations
+- Validate the houses live on the remote API
+- Implement the Circuit Breaker design pattern
