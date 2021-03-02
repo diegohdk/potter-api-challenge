@@ -1,5 +1,6 @@
 'use strict';
 
+const APIClient = require('../lib/APIClient');
 const Model = require('./Model');
 const House = require('./House');
 
@@ -10,7 +11,7 @@ class Character extends Model
 {
     /**
      * Model definitions.
-     * 
+     *
      * @type {Array<Object>}
      */
     get DEFINITION()
@@ -44,11 +45,10 @@ class Character extends Model
      */
     bootstrap()
     {
-        const houseModel = (new House).model;
         this.schema.post('validate', async record => {
-            const exists = await houseModel.exists({uid : record.house});
+            const invalid = await APIClient.create().validateHouse(record.house) !== true;
 
-            if (!exists) {
+            if (invalid) {
                 House.throwError(record, 'house', {message : `Invalid house ${record.house}`});
             }
         });

@@ -1,6 +1,5 @@
 'use strict';
 
-const APIClient = require('../lib/APIClient');
 const Controller = require('./Controller');
 
 /**

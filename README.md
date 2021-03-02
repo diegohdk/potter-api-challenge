@@ -2,7 +2,7 @@
 
 This is a Node.js app that provides a simple CRUD REST API.
 
-The API intention is to manage characters from the Harry Potter universe, 
+The API intention is to manage characters from the Harry Potter universe,
 allowing you to list, create, update and delete any character.
 
 ## API
@@ -11,7 +11,7 @@ The following endpoints are available:
 
 ### `GET /character`
 
-Returns the list of characters. An empty list is returned if no character is 
+Returns the list of characters. An empty list is returned if no character is
 registered.
 
 ```
@@ -139,7 +139,7 @@ If some field is invalid, a `422 Unprocessable Entity` error is returned.
 
 ### `DELETE /character/:id`
 
-Deletes a character by its ID. If the ID is invalid, a `404 Not Found` error is 
+Deletes a character by its ID. If the ID is invalid, a `404 Not Found` error is
 returned.
 
 ```
@@ -153,7 +153,7 @@ If the ID is invalid, a `404 Not Found` error is returned.
 
 ### `GET /house`
 
-Returns the list of available houses. An empty list is returned if no 
+Returns the list of available houses. An empty list is returned if no
 house is registered.
 
 ```
@@ -296,24 +296,38 @@ If the ID is invalid, a `404 Not Found` error is returned.
 
 ## Stack
 
-The app takes advantage of various cutting-edge technologias to provide a simple 
+The app takes advantage of various cutting-edge technologias to provide a simple
 yet scalable API, which includes:
 
 - Express.js
+- Mocha
 - MongoDB
-- AOP
 - Docker
+- Aspect Oriented Programming
+- Circuit Breaker Design Pattern
 
 ## Config
 
 The configuration is done via a `.env` file. Just copy `.env.sample` to `.env`
 and you're good to go.
 
-By default the app runs on port 3000, but it can be changed in `.env`. Just 
+By default the app runs on port 3000, but it can be changed in `.env`. Just
 remember to also update the npm scripts so the Docker commands work properly.
 
 You also need to set the `API_KEY` field in the `.env` file. To get that value,
 run the `npm run init` script bellow.
+
+## About Circuit Breaker
+
+Some API endpoints need to validate the characters house ID (create and update). To do so, a call is made to the remote API so we can check whether a given house exists.
+
+The problem is that the remote API can fail, and in that case we need to provide a fallback so our API continue to work.
+
+For that scenario we implement a _circuit breaker_ library called [opossum](https://github.com/nodeshift/opossum).
+
+Our app first tries to request the remote API, and if that call fails or takes to long, it than uses the local DB as a fallback to validate the information.
+
+The behavior of the circuit breaker can be changed via the `CIRCUIT_BREAKER_*` settings in the `.env` file. The setting `CIRCUIT_BREAKER_TIMEOUT=400` is to see the circuit breaker working with more frequency. You can adjust it to see how the app behaves.
 
 ## Install dependencies
 
@@ -327,7 +341,7 @@ npm install
 npm run init -- --name <Your Name> --email <your@email.com> --password <5tr0ngP@55w0Rd>
 ```
 
-The command will emit a line with `Your API key: ...`. Copy that value and put 
+The command will emit a line with `Your API key: ...`. Copy that value and put
 it on `API_KEY` field of `.env`. Without that, everytime you run this script, it
 will create a new account on the remote API.
 
@@ -339,11 +353,31 @@ The app will start and run on foreground.
 npm run start
 ```
 
+## Run the tests
+
+Run all tests.
+
+```
+npm run test
+```
+
+Run only unit tests.
+
+```
+npm run unit-tests
+```
+
+Run only integration tests.
+
+```
+npm run integration-tests
+```
+
 ---
 
 And that's it! Now we have a fully working REST API.
 
-But if you want to go further, you can dockerize the API with the following 
+But if you want to go further, you can dockerize the API with the following
 commands.
 
 ## Build the image
@@ -391,7 +425,4 @@ npm run docker-exec
 ## Things to improve
 
 - Add authentication
-- Add tests
 - Improve some validations
-- Validate the houses live on the remote API
-- Implement the Circuit Breaker design pattern
