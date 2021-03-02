@@ -7,7 +7,9 @@
  */
 function log(...args)
 {
-    console.log(`[${new Date().toISOString()}]`, ...args);
+    if (process.env.NODE_ENV !== 'test') {
+        console.log(`[${new Date().toISOString()}]`, ...args);
+    }
 }
 
 module.exports = log;

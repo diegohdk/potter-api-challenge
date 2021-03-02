@@ -1,9 +1,12 @@
 'use strict';
 
-require('dotenv').config();
-require('./bootstrap/db');
+if (process.env.NODE_ENV !== 'test') {
+    require('dotenv').config();
+    require('./bootstrap/db');
+}
 
 const axios = require('axios');
+const fs = require('fs').promises;
 const minimist = require('minimist');
 const Character = require('./models/Character');
 const House = require('./models/House');
@@ -69,6 +72,7 @@ async function persistHouses(houses)
 
     for (let house of houses) {
         house.uid = house.id;
+        delete house.id;
         let exists = await model.exists({uid : house.uid});
 
         if (!exists) {
@@ -76,35 +80,15 @@ async function persistHouses(houses)
             await model.create(house);
         }
     }
+
+    await fs.writeFile('./data/houses.json', JSON.stringify(houses));
 }
 
 async function insertCharacters()
 {
     const model = (new Character).model;
-    const isEmpty = (await model.count()) === 0;
-    const characters = [
-        {
-            "name": "Harry Potter",
-            "role": "Student",
-            "school": "Hogwarts",
-            "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
-            "patronus": "Stag"
-        },
-        {
-            "name": "Hermione Granger",
-            "role": "Student",
-            "school": "Hogwarts",
-            "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
-            "patronus": "Otter"
-        },
-        {
-            "name": "Ron Weasley",
-            "role": "Student",
-            "school": "Hogwarts",
-            "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
-            "patronus": "Jack Russell Terrier"
-        }
-    ];
+    const isEmpty = (await model.countDocuments()) === 0;
+    const characters = require('./data/characters');
 
     if (isEmpty) {
         process.stdout.write("Importing characters\n");

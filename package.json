@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node app",
     "init": "node init",
+    "test": "NODE_ENV=test mocha",
+    "unit-test": "NODE_ENV=test mocha ./test/unit",
+    "integration-test": "NODE_ENV=test mocha ./test/integration",
     "docker-build": "docker build -t potter-api-challenge:latest --build-arg PORT=3000 .",
     "docker-run": "docker run -d -p 3000:3000 --rm --name potter-api-challenge --network host potter-api-challenge",
     "docker-stop": "docker stop potter-api-challenge",
@@ -19,7 +22,12 @@
     "express": "~4.16.1",
     "meld": "^1.3.2",
     "minimist": "^1.2.5",
-    "mongoose": "^5.11.18",
-    "morgan": "~1.9.1"
+    "mongoose": "5.11.15",
+    "morgan": "~1.9.1",
+    "opossum": "^5.1.3",
+    "supertest": "^6.1.3"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.0"
   }
 }

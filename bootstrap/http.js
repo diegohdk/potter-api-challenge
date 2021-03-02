@@ -12,8 +12,12 @@ const ValidationError = require('mongoose/lib/error/validation');
 
 const app = express();
 const port = process.env.PORT;
+const isNotTest = process.env.NODE_ENV !== 'test';
 
-app.use(logger('dev'));
+if (isNotTest) {
+	app.use(logger('dev'));
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -47,10 +51,7 @@ app.use((error, req, res, next) => {
 		errorResponse.details = {};
 		status = 422;
 		logMessage = null;
-		Object.entries(error.errors).map(entry => {
-			log(entry)
-			errorResponse.details[entry[0]] = entry[1].message;
-		});
+		Object.entries(error.errors).map(entry => errorResponse.details[entry[0]] = entry[1].message);
 	} else if (error instanceof CastError) {
 		errorResponse.error = `The provied value for ${error.path} is invalid`;
 		status = 422;
@@ -94,5 +95,9 @@ app.on('error', error => {
 	}
 });
 
-app.set('port', port);
-app.listen(process.env.PORT, () => log(`HTTP server listening on port ${process.env.PORT}`));
+if (isNotTest) {
+	app.set('port', port);
+	app.listen(process.env.PORT, () => log(`HTTP server listening on port ${process.env.PORT}`));
+}
+
+module.exports = app;

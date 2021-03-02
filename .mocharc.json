@@ -1,0 +1,5 @@
+{
+    "require" : "./test/bootstrap/hooks.js",
+    "recursive" : true,
+    "slow" : 100
+}

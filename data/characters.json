@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Harry Potter",
+        "role": "Student",
+        "school": "Hogwarts",
+        "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
+        "patronus": "Stag"
+    },
+    {
+        "name": "Hermione Granger",
+        "role": "Student",
+        "school": "Hogwarts",
+        "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
+        "patronus": "Otter"
+    },
+    {
+        "name": "Ron Weasley",
+        "role": "Student",
+        "school": "Hogwarts",
+        "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
+        "patronus": "Jack Russell Terrier"
+    }
+]
