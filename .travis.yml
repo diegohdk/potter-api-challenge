@@ -7,5 +7,5 @@ before_install:
  - npm install -g codecov
  - sed 's/API_KEY=/API_KEY=7192a8dc-e1d8-4aa2-b2a0-47f08904077c/' .env.sample > .env
 
-script:
-  - npm test && codecov
+after_success:
+  - codecov
