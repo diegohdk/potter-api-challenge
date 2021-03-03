@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/diegohdk/potter-api-challenge.svg?branch=main)](https://travis-ci.com/diegohdk/potter-api-challenge)
+
 # potter-api-challenge
 
 This is a Node.js app that provides a simple CRUD REST API.
