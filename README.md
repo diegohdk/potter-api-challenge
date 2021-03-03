@@ -376,6 +376,12 @@ Run only integration tests.
 npm run integration-tests
 ```
 
+## Lint the code
+
+```
+npm run lint
+```
+
 ---
 
 And that's it! Now we have a fully working REST API.

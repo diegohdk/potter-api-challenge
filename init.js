@@ -16,14 +16,14 @@ axios.defaults.baseURL = 'http://us-central1-rh-challenges.cloudfunctions.net/po
 
 function printUsage(msg, code)
 {
-	if(msg)
+    if(msg)
         process.stderr.write(msg);
 
-	if(!code)
-		code = 0;
+    if(!code)
+        code = 0;
 
-	process.stderr.write('\nUsage: node init --name NAME --email EMAIL --password PASSWORD\n');
-	process.exit(code);
+    process.stderr.write('\nUsage: node init --name NAME --email EMAIL --password PASSWORD\n');
+    process.exit(code);
 }
 
 function setApiKey(apiKey)
@@ -91,7 +91,7 @@ async function insertCharacters()
     const characters = require('./data/characters');
 
     if (isEmpty) {
-        process.stdout.write("Importing characters\n");
+        process.stdout.write('Importing characters\n');
         await model.create(characters);
     }
 }

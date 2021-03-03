@@ -11,13 +11,13 @@ const log = require('./log');
  */
 function die(signal, exit, error)
 {
-	log('Process received the signal', signal);
+    log('Process received the signal', signal);
 
     if(error)
-		log(error.stack);
+        log(error.stack);
 
-	if(exit)
-		doExit();
+    if(exit)
+        doExit();
 }
 
 /**
@@ -25,8 +25,8 @@ function die(signal, exit, error)
  */
 function doExit()
 {
-	log('Bye!');
-	process.exit();
+    log('Bye!');
+    process.exit();
 }
 
 module.exports = die;

@@ -8,7 +8,7 @@ const Character = require('../../models/Character');
 function getCharacter(name)
 {
     const model = (new Character).model;
-    return model.findOne({name : name});
+    return model.findOne({ name });
 }
 
 describe('Character API tests', function() {
@@ -86,7 +86,7 @@ describe('Character API tests', function() {
                 .expect(422)
                 .expect('Content-type', /^application\/json.*/)
                 .expect(res => assert.strictEqual(res.body.error, 'The request data is invalid'))
-                .expect(res => assert.ok(res.body.details.house))
+                .expect(res => assert.ok(res.body.details.house));
         });
     });
 
@@ -96,7 +96,7 @@ describe('Character API tests', function() {
             role : 'Professor'
         };
 
-        it('should be 204 Not Content and update the character', async function() {
+        it('should be 204 No Content and update the character', async function() {
             let record = await getCharacter('Harry Potter');
             await request(app)
                 .put(`/characters/${record._id}`)
@@ -118,7 +118,7 @@ describe('Character API tests', function() {
     });
 
     describe('DELETE /characters/:id', function() {
-        it('should be 204 Not Content and delete the character', async function() {
+        it('should be 204 No Content and delete the character', async function() {
             const name = 'Ron Weasley';
             let record = await getCharacter(name);
 

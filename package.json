@@ -8,6 +8,7 @@
     "test": "NODE_ENV=test nyc --reporter=lcov mocha",
     "unit-tests": "NODE_ENV=test mocha ./test/unit",
     "integration-tests": "NODE_ENV=test mocha ./test/integration",
+    "lint": "eslint ./",
     "docker-build": "docker build -t potter-api-challenge:latest --build-arg PORT=3000 .",
     "docker-run": "docker run -d -p 3000:3000 --rm --name potter-api-challenge --network host potter-api-challenge",
     "docker-stop": "docker stop potter-api-challenge",
@@ -28,6 +29,7 @@
     "supertest": "^6.1.3"
   },
   "devDependencies": {
+    "eslint": "^7.21.0",
     "mocha": "^8.3.0",
     "mongo-unit": "^2.0.1",
     "nyc": "^15.1.0"
