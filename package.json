@@ -5,10 +5,9 @@
   "scripts": {
     "start": "node app",
     "init": "node init",
-    "test": "NODE_ENV=test mocha",
+    "test": "NODE_ENV=test nyc --reporter=lcov mocha",
     "unit-tests": "NODE_ENV=test mocha ./test/unit",
     "integration-tests": "NODE_ENV=test mocha ./test/integration",
-    "ci": "NODE_ENV=test nyc --reporter=lcov mocha",
     "docker-build": "docker build -t potter-api-challenge:latest --build-arg PORT=3000 .",
     "docker-run": "docker run -d -p 3000:3000 --rm --name potter-api-challenge --network host potter-api-challenge",
     "docker-stop": "docker stop potter-api-challenge",
