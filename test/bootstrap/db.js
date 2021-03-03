@@ -1,7 +1,6 @@
 'use strict';
 
-process.env.DB_URI += '-test';
-const db = require('../../bootstrap/db');
+const mongoUnit = require('mongo-unit');
 
 async function importRecords(modelName)
 {
@@ -16,12 +15,9 @@ async function importRecords(modelName)
     }
 }
 
-module.exports = () => {
-    return new Promise(done => {
-        db.connection.on('connected', async () => {
-            await importRecords('House');
-            await importRecords('Character');
-            done(db);
-        });
-    })
+module.exports = async () => {
+    process.env.DB_URI = await mongoUnit.start();
+    require('../../bootstrap/db');
+    await importRecords('House');
+    await importRecords('Character');
 };

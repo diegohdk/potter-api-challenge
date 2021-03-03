@@ -9,7 +9,8 @@ exports.mochaHooks = {
     },
     async afterAll() {
         const mongoose = require('mongoose');
-        await mongoose.connection.db.dropDatabase();
+        const mongoUnit = require('mongo-unit');
         await mongoose.disconnect();
+        await mongoUnit.stop();
     }
 };
