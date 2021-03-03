@@ -9,13 +9,13 @@ allowing you to list, create, update and delete any character.
 
 The following endpoints are available:
 
-### `GET /character`
+### `GET /characters`
 
 Returns the list of characters. An empty list is returned if no character is
 registered.
 
 ```
-GET /character HTTP/1.1
+GET /characters HTTP/1.1
 Host: localhost:3000
 ```
 
@@ -56,12 +56,12 @@ On success returns `200 OK` with the following content:
 ]
 ```
 
-### `GET /character/:id`
+### `GET /characters/:id`
 
 Retuns a character by its ID.
 
 ```
-GET /character/603815a3de8a3b000a806ea3 HTTP/1.1
+GET /characters/603815a3de8a3b000a806ea3 HTTP/1.1
 Host: localhost:3000
 ```
 
@@ -82,14 +82,14 @@ On success returns `200 OK` with the following content:
 
 If the ID is invalid, a `404 Not Found` error is returned.
 
-### `POST /character`
+### `POST /characters`
 
 Creates a new character and returns it.
 
 Only `name` and `house` are required. All fields are of type `string`.
 
 ```
-POST /character HTTP/1.1
+POST /characters HTTP/1.1
 Host: localhost:3000
 
 {
@@ -118,12 +118,12 @@ On success returns `200 OK` with the following content:
 
 If some field is invalid, a `422 Unprocessable Entity` error is returned.
 
-### `PUT /character/:id`
+### `PUT /characters/:id`
 
 Updates a character by its ID.
 
 ```
-PUT /character/603815a3de8a3b000a806ea3 HTTP/1.1
+PUT /characters/603815a3de8a3b000a806ea3 HTTP/1.1
 Host: localhost:3000
 
 {
@@ -137,13 +137,13 @@ If the ID is invalid, a `404 Not Found` error is returned.
 
 If some field is invalid, a `422 Unprocessable Entity` error is returned.
 
-### `DELETE /character/:id`
+### `DELETE /characters/:id`
 
 Deletes a character by its ID. If the ID is invalid, a `404 Not Found` error is
 returned.
 
 ```
-DELETE /character/603815a3de8a3b000a806ea3 HTTP/1.1
+DELETE /characters/603815a3de8a3b000a806ea3 HTTP/1.1
 Host: localhost:3000
 ```
 
@@ -151,13 +151,13 @@ On success returns `204 No Content`.
 
 If the ID is invalid, a `404 Not Found` error is returned.
 
-### `GET /house`
+### `GET /houses`
 
 Returns the list of available houses. An empty list is returned if no
 house is registered.
 
 ```
-GET /house HTTP/1.1
+GET /houses HTTP/1.1
 Host: localhost:3000
 ```
 
@@ -256,12 +256,12 @@ On success returns `200 OK` with the following content:
 ]
 ```
 
-### `GET /house/:uid`
+### `GET /houses/:uid`
 
 Retuns a house by its UID.
 
 ```
-GET /house/1760529f-6d51-4cb1-bcb1-25087fce5bde HTTP/1.1
+GET /houses/1760529f-6d51-4cb1-bcb1-25087fce5bde HTTP/1.1
 Host: localhost:3000
 ```
 

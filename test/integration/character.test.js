@@ -12,20 +12,20 @@ function getCharacter(name)
 }
 
 describe('Character API tests', function() {
-    describe('GET /character', function() {
+    describe('GET /characters', function() {
         it('should be 200 OK and have 3 characters', async function() {
             await request(app)
-                .get('/character')
+                .get('/characters')
                 .expect(200)
                 .expect(res => assert.strictEqual(res.body.length, 3));
         });
     });
 
-    describe('GET /character/:id', function() {
+    describe('GET /characters/:id', function() {
         it('should be 200 OK and return Harry Potter', async function() {
             const record = await getCharacter('Harry Potter');
             await request(app)
-                .get(`/character/${record._id}`)
+                .get(`/characters/${record._id}`)
                 .expect(200)
                 .expect('Content-type', /^application\/json.*/)
                 .expect(res => assert.strictEqual(res.body.name, 'Harry Potter'));
@@ -33,13 +33,13 @@ describe('Character API tests', function() {
 
         it('should be 404 Not Found', async function() {
             await request(app)
-                .get('/character/603a653946d3d000b6bc9523')
+                .get('/characters/603a653946d3d000b6bc9523')
                 .expect(404)
                 .expect('Content-type', /^application\/json.*/);
         });
     });
 
-    describe('POST /character', function() {
+    describe('POST /characters', function() {
         it('should be 201 Created and create a new character', async function() {
             const payload = {
                 name : 'Albus Dumbledore',
@@ -50,7 +50,7 @@ describe('Character API tests', function() {
             };
 
             await request(app)
-                .post('/character')
+                .post('/characters')
                 .send(payload)
                 .expect(201)
                 .expect('Content-type', /^application\/json.*/)
@@ -64,7 +64,7 @@ describe('Character API tests', function() {
             };
 
             await request(app)
-                .post('/character')
+                .post('/characters')
                 .send(payload)
                 .expect(201)
                 .expect('Content-type', /^application\/json.*/)
@@ -81,7 +81,7 @@ describe('Character API tests', function() {
             };
 
             await request(app)
-                .post('/character')
+                .post('/characters')
                 .send(payload)
                 .expect(422)
                 .expect('Content-type', /^application\/json.*/)
@@ -90,7 +90,7 @@ describe('Character API tests', function() {
         });
     });
 
-    describe('PUT /character/:id', function() {
+    describe('PUT /characters/:id', function() {
         const payload = {
             name : 'Harry P.',
             role : 'Professor'
@@ -99,7 +99,7 @@ describe('Character API tests', function() {
         it('should be 204 Not Content and update the character', async function() {
             let record = await getCharacter('Harry Potter');
             await request(app)
-                .put(`/character/${record._id}`)
+                .put(`/characters/${record._id}`)
                 .send(payload)
                 .expect(204);
 
@@ -110,20 +110,20 @@ describe('Character API tests', function() {
 
         it('should be 404 Not Found', async function() {
             await request(app)
-                .put('/character/603a653946d3d000b6bc9523')
+                .put('/characters/603a653946d3d000b6bc9523')
                 .send(payload)
                 .expect(404)
                 .expect('Content-type', /^application\/json.*/);
         });
     });
 
-    describe('DELETE /character/:id', function() {
+    describe('DELETE /characters/:id', function() {
         it('should be 204 Not Content and delete the character', async function() {
             const name = 'Ron Weasley';
             let record = await getCharacter(name);
 
             await request(app)
-                .delete(`/character/${record._id}`)
+                .delete(`/characters/${record._id}`)
                 .expect(204);
 
             record = await getCharacter(name);
@@ -132,7 +132,7 @@ describe('Character API tests', function() {
 
         it('should be 404 Not Found', async function() {
             await request(app)
-                .delete('/character/603a653946d3d000b6bc9523')
+                .delete('/characters/603a653946d3d000b6bc9523')
                 .expect(404)
                 .expect('Content-type', /^application\/json.*/);
         });
