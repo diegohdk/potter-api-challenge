@@ -9,6 +9,31 @@ This is a Node.js app that provides a simple CRUD REST API.
 The API intention is to manage characters from the Harry Potter universe,
 allowing you to list, create, update and delete any character.
 
+## Table of contents
+
+* [API](#api)
+  * [GET /characters](#get-characters)
+  * [GET /characters/:id](#get-charactersid)
+  * [POST /characters](#post-characters)
+  * [PUT /characters/:id](#put-charactersid)
+  * [DELETE /characters/:id](#delete-charactersid)
+  * [GET /houses](#get-houses)
+  * [GET /houses/:uid](#get-housesuid)
+* [Stack](#stack)
+* [Config](#config)
+* [About Circuit Breaker](#about-circuit-breaker)
+* [Install dependencies](#install-dependencies)
+* [Import the houses data](#import-the-houses-data)
+* [Start the application](#start-the-application)
+* [Run the tests](#run-the-tests)
+* [Lint the code](#lint-the-code)
+* [Build the image](#build-the-image)
+* [Start the container](#start-the-container)
+* [Stop the container](#stop-the-container)
+* [See container logs](#see-container-logs)
+* [Enter the container](#enter-the-container)
+* [Things to improve](#things-to-improve)
+
 ## API
 
 The following endpoints are available:
