@@ -124,7 +124,7 @@ describe('Character API tests', function() {
                 .send(payload)
                 .expect(422)
                 .expect('Content-type', /^application\/json.*/)
-                .expect(res => assert.strictEqual(res.body.details.name, 'Cast to string failed for value \"true\" at path \"name\"'));
+                .expect(res => assert.strictEqual(res.body.details.name, 'Cast to string failed for value "true" at path "name"'));
         });
 
         it('should be 422 Unprocessable Entity (name is null)', async function() {
