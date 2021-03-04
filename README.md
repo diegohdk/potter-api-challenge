@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/diegohdk/potter-api-challenge.svg?branch=main)](https://travis-ci.com/diegohdk/potter-api-challenge)
 [![codecov](https://codecov.io/gh/diegohdk/potter-api-challenge/branch/main/graph/badge.svg?token=RXHNUILLPN)](https://codecov.io/gh/diegohdk/potter-api-challenge)
+[![Known Vulnerabilities](https://snyk.io/test/github/diegohdk/potter-api-challenge/badge.svg)](https://snyk.io/test/github/diegohdk/potter-api-challenge)
 
 # potter-api-challenge
 

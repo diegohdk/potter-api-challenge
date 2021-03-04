@@ -13,11 +13,19 @@ function getCharacter(name)
 
 describe('Character API tests', function() {
     describe('GET /characters', function() {
-        it('should be 200 OK and have 3 characters', async function() {
+        it('should be 200 OK and have 4 characters', async function() {
             await request(app)
                 .get('/characters')
                 .expect(200)
-                .expect(res => assert.strictEqual(res.body.length, 3));
+                .expect(res => assert.strictEqual(res.body.length, 4));
+        });
+
+        it('should be 200 OK and have 1 filtered character', async function() {
+            await request(app)
+                .get('/characters?house=df01bd60-e3ed-478c-b760-cdbd9afe51fc')
+                .expect(200)
+                .expect(res => assert.strictEqual(res.body.length, 1))
+                .expect(res => assert.strictEqual(res.body[0].name, 'Severus Snape'));
         });
     });
 
@@ -106,6 +114,28 @@ describe('Character API tests', function() {
             record = await getCharacter(payload.name);
             assert.ok(record);
             assert.strictEqual(record.role, payload.role);
+        });
+
+        it('should be 422 Unprocessable Entity (name is boolean)', async function() {
+            let record = await getCharacter('Harry P.');
+            payload.name = true;
+            await request(app)
+                .put(`/characters/${record._id}`)
+                .send(payload)
+                .expect(422)
+                .expect('Content-type', /^application\/json.*/)
+                .expect(res => assert.strictEqual(res.body.details.name, 'Cast to string failed for value \"true\" at path \"name\"'));
+        });
+
+        it('should be 422 Unprocessable Entity (name is null)', async function() {
+            let record = await getCharacter('Harry P.');
+            payload.name = null;
+            await request(app)
+                .put(`/characters/${record._id}`)
+                .send(payload)
+                .expect(422)
+                .expect('Content-type', /^application\/json.*/)
+                .expect(res => assert.strictEqual(res.body.details.name, 'Path `name` is required.'));
         });
 
         it('should be 404 Not Found', async function() {

@@ -19,5 +19,12 @@
         "school": "Hogwarts",
         "house": "1760529f-6d51-4cb1-bcb1-25087fce5bde",
         "patronus": "Jack Russell Terrier"
+    },
+    {
+        "name": "Severus Snape",
+        "role": "Professor",
+        "school": "Hogwarts",
+        "house": "df01bd60-e3ed-478c-b760-cdbd9afe51fc",
+        "patronus": "Doe"
     }
 ]

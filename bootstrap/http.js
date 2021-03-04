@@ -36,6 +36,11 @@ app.use((req, res, next) => {
 // mount routes
 routes(app);
 
+// routes not found
+app.use((req, res, next) => {
+    res.status(404).json({error : `Cannot ${req.method} ${req.path}`});
+});
+
 // default error handler
 app.use((error, req, res, next) => {
     // we need the "next" argument here, even not using it
@@ -77,29 +82,30 @@ app.on('error', error => {
         throw error;
     }
 
-    var bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port;
+    const bind = (Number.isNaN(port) ? 'Pipe ' : 'Port ') + port;
+    const server = app.get('server');
 
     // handle specific listen errors with friendly messages
     switch (error.code)
     {
         case 'EACCES':
             log(bind + ' requires elevated privileges');
-            process.exit(1);
             break;
         case 'EADDRINUSE':
             log(bind + ' is already in use');
-            process.exit(1);
             break;
         default:
             throw error;
     }
+
+    server && server.close();
+    isNotTest && process.exit(1);
 });
 
 if (isNotTest) {
-    app.set('port', port);
-    app.listen(process.env.PORT, () => log(`HTTP server listening on port ${process.env.PORT}`));
+    const server = app.listen(process.env.PORT, () => log(`HTTP server listening on port ${process.env.PORT}`));
+    app.set('server', server);
+    server.on('error', error => app.emit('error', error));
 }
 
 module.exports = app;
