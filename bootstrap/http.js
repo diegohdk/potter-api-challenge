@@ -11,7 +11,6 @@ const CastError = require('mongoose/lib/error/cast');
 const ValidationError = require('mongoose/lib/error/validation');
 
 const app = express();
-const port = process.env.PORT;
 const isNotTest = process.env.NODE_ENV !== 'test';
 
 if (isNotTest) {
@@ -82,6 +81,7 @@ app.on('error', error => {
         throw error;
     }
 
+    const port = process.env.PORT;
     const bind = (Number.isNaN(port) ? 'Pipe ' : 'Port ') + port;
     const server = app.get('server');
 
@@ -89,10 +89,10 @@ app.on('error', error => {
     switch (error.code)
     {
         case 'EACCES':
-            log(bind + ' requires elevated privileges');
+            log(`${bind} requires elevated privileges`);
             break;
         case 'EADDRINUSE':
-            log(bind + ' is already in use');
+            log(`${bind} is already in use`);
             break;
         default:
             throw error;
