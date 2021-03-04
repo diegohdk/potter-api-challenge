@@ -1,3 +1,7 @@
 coverage:
   round: up
   range: 50..80
+
+ignore:
+  - services/errors.js
+  - services/log.js
