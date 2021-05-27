@@ -1,5 +1,5 @@
 {
-    "require" : "./test/bootstrap/hooks.js",
+    "require" : "./test/bootstrap/hooks.ts",
     "recursive" : true,
     "slow" : 100
 }

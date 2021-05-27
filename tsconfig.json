@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "target": "ES2020",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "strict": false,
+        "sourceMap": false
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
