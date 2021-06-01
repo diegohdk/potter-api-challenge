@@ -2,13 +2,14 @@ import { NextFunction, Request, RequestHandler, Response } from 'express';
 import HttpAdapter from './HttpAdapter';
 import IRepository from '../../core/repositories/IRepository';
 import Context from './Context';
+import IHandler from './IHandler';
 
 /**
  * Express adapter class.
  */
 export default class ExpressAdapter extends HttpAdapter<IRepository>
 {
-    create(handler: Function): RequestHandler
+    create(handler: IHandler): RequestHandler
     {
         return (req: Request, res: Response, next: NextFunction): void => {
             const context: Context = Context.create(req.body, req.params, req.query);
@@ -20,7 +21,7 @@ export default class ExpressAdapter extends HttpAdapter<IRepository>
         }
     }
 
-    getStatusCode(req: Request)
+    getStatusCode(req: Request): number
     {
         if (req.method === 'POST') {
             return 201;

@@ -4,7 +4,7 @@ import { Router } from 'express';
 import IHouseRepository from '../../../../core/repositories/IHouseRepository';
 import { default as repos } from '../../../repositories';
 
-export default (router: Router) => {
+export default (router: Router): void => {
     const { HouseRepository } = repos;
     const repo: IHouseRepository = new HouseRepository();
     const controller = new HouseController(repo);

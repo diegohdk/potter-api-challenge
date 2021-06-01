@@ -23,33 +23,33 @@ export default class CharacterNestController
     }
 
     @Get()
-    index(@Query('house') house: string)
+    index(@Query('house') house: string): Promise<any>
     {
         return this.adapter.create(this.controller.index, { query: { house } })
     }
 
     @Get(':id')
-    read(@Param('id') id: string)
+    read(@Param('id') id: string): Promise<any>
     {
         return this.adapter.create(this.controller.read, { params: { id } })
     }
 
     @Post()
-    create(@Body() body: any)
+    create(@Body() body: any): Promise<any>
     {
         return this.adapter.create(this.controller.create, { body })
     }
 
     @Put(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    update(@Param('id') id: string, @Body() body: any)
+    update(@Param('id') id: string, @Body() body: any): Promise<any>
     {
         return this.adapter.create(this.controller.update, { params: { id }, body })
     }
 
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    delete(@Param('id') id: string)
+    delete(@Param('id') id: string): Promise<any>
     {
         return this.adapter.create(this.controller.delete, { params: { id } })
     }

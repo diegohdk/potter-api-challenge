@@ -1,3 +1,4 @@
+import log from '../../../common/utils/log';
 import ICharacterEntity from '../../../core/entities/ICharacterEntity';
 import IHouseEntity from '../../../core/entities/IHouseEntity';
 import IServer from '../../IServer';
@@ -12,7 +13,6 @@ interface ICollections
 
 export default class MemoryDatabaseServer implements IServer
 {
-    private static instance: MemoryDatabaseServer;
     private collections: ICollections;
 
     constructor()
@@ -21,35 +21,33 @@ export default class MemoryDatabaseServer implements IServer
             characters: new Collection<ICharacterEntity>(),
             houses: new Collection<IHouseEntity>()
         };
-
-        this.initialize();
-    }
-
-    static getInstance(): MemoryDatabaseServer
-    {
-        if (!MemoryDatabaseServer.instance) {
-            MemoryDatabaseServer.instance = new MemoryDatabaseServer();
-        }
-
-        return MemoryDatabaseServer.instance;
     }
 
     async initialize(): Promise<void>
     {
-        for (let key in this.collections) {
+        for (const key in this.collections) {
             const collection: Collection<any> = this.collections[key];
             const path = `../../../../mock/${key}.json`;
-            const data = require(path);
-            data.forEach(item => collection.create(item));
+            const data = await import(path);
+            data.default.forEach(item => collection.create(item));
         }
     }
 
-    async connect(): Promise<void> { }
+    async connect(): Promise<void>
+    {
+        this.initialize();
+        log('In-memory DB ready');
+    }
 
-    getEngine(): any { }
+    getEngine(): any
+    {
+        return this;
+    }
 
     getCollection<Entity extends IEntityType>(name: string): Collection<Entity>
     {
         return this.collections[name];
     }
 }
+
+export const db = new MemoryDatabaseServer();

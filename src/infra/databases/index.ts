@@ -1,13 +1,13 @@
 import IServer from '../IServer';
-import MongoDBServer from './mongodb/MongoDBServer';
-import MemoryDatabaseServer from './inmemory/MemoryDatabaseServer';
+import { db as mongodb } from './mongodb/MongoDBServer';
+import { db as inmemory } from './inmemory/MemoryDatabaseServer';
 
 let server: IServer;
 
 if (process.env.DB === 'mongodb') {
-    server = new MongoDBServer();
+    server = mongodb;
 } if (process.env.DB === 'inmemory') {
-    server = new MemoryDatabaseServer();
+    server = inmemory;
 }
 
 export {

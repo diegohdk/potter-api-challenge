@@ -19,13 +19,13 @@ export default class HouseNestController
     }
 
     @Get()
-    index()
+    index(): Promise<any>
     {
         return this.adapter.create(this.controller.index)
     }
 
     @Get(':id')
-    read(@Param('id') id: string)
+    read(@Param('id') id: string): Promise<any>
     {
         return this.adapter.create(this.controller.read, { params: { id } })
     }

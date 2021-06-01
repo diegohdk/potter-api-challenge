@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { start } from 'mongo-unit';
-import { server as db } from '../../src/infra/databases/index';
+import { server as db } from '../../src/infra/databases';
 
 async function importRecords(modelName: string): Promise<void>
 {

@@ -38,6 +38,7 @@ export default class ExpressServer extends HttpServer
         this.app.use(routes);
 
         // routes not found
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         this.app.use((req: Request, res: Response, next: NextFunction): void => {
             res.status(404).json({ error: `Cannot ${req.method} ${req.path}` });
         });
@@ -45,16 +46,16 @@ export default class ExpressServer extends HttpServer
         // default error handler
         this.app.use((error: any, req: Request, res: Response, next: NextFunction): void => {
             // we need the "next" argument here, even not using it
-            /*eslint no-unused-vars: ["error", { "args": "none" }]*/
             const { status, errorResponse, logMessage } = handleError(error);
 
             if (logMessage) {
-                let uri = `${req.method} ${req.protocol}://${req.headers.host}${req.url}`;
+                const uri = `${req.method} ${req.protocol}://${req.headers.host}${req.url}`;
                 log(uri, logMessage);
             }
 
             res.status(status).json(errorResponse);
         });
+        /* eslint-enable @typescript-eslint/no-unused-vars */
 
         this.app.on('error', (error: any): void => {
             if (error.syscall !== 'listen') {
@@ -91,8 +92,10 @@ export default class ExpressServer extends HttpServer
         server.on('error', (error: Error) => this.app.emit('error', error));
     }
 
-    getEngine(): any
+    getEngine(): Express
     {
         return this.app;
     }
 }
+
+export const http = new ExpressServer();

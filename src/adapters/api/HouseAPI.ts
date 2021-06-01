@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import CircuitBreakerManager from '../../common/lib/CircuitBreakerManager';
 import log from '../../common/utils/log';
+import IHouseEntity from '../../core/entities/IHouseEntity';
 import IHouseAPI from '../../core/features/characters/IHouseAPI';
 import IHouseRepository from '../../core/repositories/IHouseRepository';
 
@@ -15,7 +16,7 @@ export default class HouseAPI implements IHouseAPI
     /**
      * Base URI of the remote API.
      */
-    static get BASE_URI()
+    static get BASE_URI(): string
     {
         return 'http://us-central1-rh-challenges.cloudfunctions.net/potterApi';
     }
@@ -85,7 +86,7 @@ export default class HouseAPI implements IHouseAPI
     async findHouseOnRemote(house: string): Promise<boolean>
     {
         const response = await this.request.get('/houses');
-        return response.data.houses.some(h => h.id === house);
+        return response.data.houses.some((h: IHouseEntity) => h.id === house);
     }
 
     /**

@@ -3,16 +3,16 @@ import NotFoundError from '../../../common/errors/NotFoundError';
 import HouseEntity from '../../../core/entities/HouseEntity';
 import IHouseRepository from '../../../core/repositories/IHouseRepository';
 import Collection from '../../databases/inmemory/Collection';
-import MemoryDatabaseServer from '../../databases/inmemory/MemoryDatabaseServer';
+import { db } from '../../databases/inmemory/MemoryDatabaseServer';
 
 /**
  * House repository class.
  */
 export default class HouseRepositoryInMemory implements IHouseRepository
 {
-    get collection(): Collection<HouseEntity>
+    private get collection(): Collection<HouseEntity>
     {
-        return MemoryDatabaseServer.getInstance().getCollection('houses');
+        return db.getCollection('houses');
     }
 
     /**

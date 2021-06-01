@@ -1,13 +1,18 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import express from 'express';
-import { server } from '../../src/infra/http';
+import express, { Express } from 'express';
+import ExpressServer from '../../src/infra/http/express/ExpressServer';
 
-describe('Server tests', async () => {
-    await server.initialize();
-    const app = server.getEngine();
+describe('ExpressServer tests', function() {
+    let app: Express;
 
-    it('should run only one instance', done => {
+    beforeEach(async function() {
+        const server = new ExpressServer();
+        await server.initialize();
+        app = server.getEngine();
+    });
+
+    it('should run only one instance', function(done) {
         function close(server1, server2) {
             server1.close();
             server2.close();
@@ -25,7 +30,7 @@ describe('Server tests', async () => {
         });
     });
 
-    it('should throw an error (code)', () => {
+    it('should throw an error (code)', function() {
         const error = new Error('Catch me!');
         expect(() => app.emit('error', error)).to.throw(error);
     });
@@ -42,7 +47,7 @@ describe('Server tests', async () => {
     //     }
     // });
 
-    it('should be 404 Not Found', async () => {
+    it('should be 404 Not Found', async function() {
         await request(app)
             .get('/invalidroute')
             .expect(404)

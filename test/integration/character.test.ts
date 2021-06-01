@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import request from 'supertest';
 import ICharacterEntity from '../../src/core/entities/ICharacterEntity';
 import ICharacterRepository from '../../src/core/repositories/ICharacterRepository';
-import { server } from '../../src/infra/http';
 import { default as repos } from '../../src/infra/repositories';
 
 const { CharacterRepository } = repos;
@@ -14,20 +13,17 @@ async function getCharacter(name: string): Promise<ICharacterEntity>
     return result[0];
 }
 
-describe('Character API tests', async () => {
-    await server.initialize();
-    const app = server.getEngine();
-
+describe('Character API tests', () => {
     describe('GET /characters', () => {
-        it('should be 200 OK and have 4 characters', async () => {
-            await request(app)
+        it('should be 200 OK and have 4 characters', async function() {
+            await request(this.app)
                 .get('/characters')
                 .expect(200)
                 .expect(res => expect(res.body.length).to.be.equal(4));
         });
 
-        it('should be 200 OK and have 1 filtered character', async () => {
-            await request(app)
+        it('should be 200 OK and have 1 filtered character', async function() {
+            await request(this.app)
                 .get('/characters?house=df01bd60-e3ed-478c-b760-cdbd9afe51fc')
                 .expect(200)
                 .expect(res => expect(res.body.length).to.be.equal(1))
@@ -36,17 +32,17 @@ describe('Character API tests', async () => {
     });
 
     describe('GET /characters/:id', () => {
-        it('should be 200 OK and return Harry Potter', async () => {
+        it('should be 200 OK and return Harry Potter', async function() {
             const record = await getCharacter('Harry Potter');
-            await request(app)
+            await request(this.app)
                 .get(`/characters/${record.id}`)
                 .expect(200)
                 .expect('Content-type', /^application\/json.*/)
                 .expect(res => expect(res.body).to.have.property('name').equal('Harry Potter'));
         });
 
-        it('should be 404 Not Found', async () => {
-            await request(app)
+        it('should be 404 Not Found', async function() {
+            await request(this.app)
                 .get('/characters/603a653946d3d000b6bc9523')
                 .expect(404)
                 .expect('Content-type', /^application\/json.*/);
@@ -54,16 +50,16 @@ describe('Character API tests', async () => {
     });
 
     describe('POST /characters', () => {
-        it('should be 201 Created and create a new character', async () => {
+        it('should be 201 Created and create a new character', async function() {
             const payload = {
-                name : 'Albus Dumbledore',
-                role : 'Professor',
-                school : 'Hogwarts',
-                house : '1760529f-6d51-4cb1-bcb1-25087fce5bde',
-                patronus : 'Phoenix'
+                name: 'Albus Dumbledore',
+                role: 'Professor',
+                school: 'Hogwarts',
+                house: '1760529f-6d51-4cb1-bcb1-25087fce5bde',
+                patronus: 'Phoenix'
             };
 
-            await request(app)
+            await request(this.app)
                 .post('/characters')
                 .send(payload)
                 .expect(201)
@@ -71,48 +67,44 @@ describe('Character API tests', async () => {
                 .expect(res => expect(res.body).to.have.property('name').equal(payload.name));
         });
 
-        it('should be 201 Created and create a new character with name and house only', async () => {
+        it('should be 201 Created and create a new character with name and house only', async function() {
             const payload = {
-                name : 'Albus Dumbledore',
-                house : '1760529f-6d51-4cb1-bcb1-25087fce5bde'
+                name: 'Albus Dumbledore',
+                house: '1760529f-6d51-4cb1-bcb1-25087fce5bde'
             };
 
-            await request(app)
+            await request(this.app)
                 .post('/characters')
                 .send(payload)
                 .expect(201)
                 .expect('Content-type', /^application\/json.*/)
                 .expect(res => expect(res.body).to.have.property('name').equal(payload.name))
-                .expect(res => expect(res.body).to.have.property('house').equal(payload.house))
-                // .expect(res => assert.ifError(res.body.role))
-                // .expect(res => assert.ifError(res.body.school))
-                // .expect(res => assert.ifError(res.body.patronus));
+                .expect(res => expect(res.body).to.have.property('house').equal(payload.house));
         });
 
-        it('should be 422 Unprocessable Entity', async () => {
+        it('should be 422 Unprocessable Entity', async function() {
             const payload = {
-                name : 'Albus Dumbledore'
+                name: 'Albus Dumbledore'
             };
 
-            await request(app)
+            await request(this.app)
                 .post('/characters')
                 .send(payload)
                 .expect(422)
                 .expect('Content-type', /^application\/json.*/)
-                .expect(res => expect(res.body).to.have.property('error').equal('The request data is invalid'))
-                .expect(res => expect(res.body).to.have.property('details').that.is.an('object').with.property('house').not.empty);
+                .expect(res => expect(res.body).to.have.property('error').equal('Invalid house ID'));
         });
     });
 
     describe('PUT /characters/:id', () => {
         const payload: { name: any, role: any } = {
-            name : 'Harry P.',
-            role : 'Professor'
+            name: 'Harry P.',
+            role: 'Professor'
         };
 
-        it('should be 204 No Content and update the character', async () => {
+        it('should be 204 No Content and update the character', async function() {
             let record = await getCharacter('Harry Potter');
-            await request(app)
+            await request(this.app)
                 .put(`/characters/${record.id}`)
                 .send(payload)
                 .expect(204);
@@ -122,30 +114,8 @@ describe('Character API tests', async () => {
             expect(record.role).to.be.equal(payload.role);
         });
 
-        it('should be 422 Unprocessable Entity (name is boolean)', async () => {
-            let record = await getCharacter('Harry P.');
-            payload.name = true;
-            await request(app)
-                .put(`/characters/${record.id}`)
-                .send(payload)
-                .expect(422)
-                .expect('Content-type', /^application\/json.*/)
-                .expect(res => expect(res.body).to.have.property('details').that.is.an('object').with.property('name').equal('Cast to string failed for value "true" at path "name"'));
-        });
-
-        it('should be 422 Unprocessable Entity (name is null)', async () => {
-            let record = await getCharacter('Harry P.');
-            payload.name = null;
-            await request(app)
-                .put(`/characters/${record.id}`)
-                .send(payload)
-                .expect(422)
-                .expect('Content-type', /^application\/json.*/)
-                .expect(res => expect(res.body.details.name).to.be.equal('Path `name` is required.'));
-        });
-
-        it('should be 404 Not Found', async () => {
-            await request(app)
+        it('should be 404 Not Found', async function() {
+            await request(this.app)
                 .put('/characters/603a653946d3d000b6bc9523')
                 .send(payload)
                 .expect(404)
@@ -154,11 +124,11 @@ describe('Character API tests', async () => {
     });
 
     describe('DELETE /characters/:id', () => {
-        it('should be 204 No Content and delete the character', async () => {
+        it('should be 204 No Content and delete the character', async function() {
             const name = 'Ron Weasley';
             let record = await getCharacter(name);
 
-            await request(app)
+            await request(this.app)
                 .delete(`/characters/${record.id}`)
                 .expect(204);
 
@@ -166,8 +136,8 @@ describe('Character API tests', async () => {
             expect(record).to.be.undefined;
         });
 
-        it('should be 404 Not Found', async () => {
-            await request(app)
+        it('should be 404 Not Found', async function() {
+            await request(this.app)
                 .delete('/characters/603a653946d3d000b6bc9523')
                 .expect(404)
                 .expect('Content-type', /^application\/json.*/);

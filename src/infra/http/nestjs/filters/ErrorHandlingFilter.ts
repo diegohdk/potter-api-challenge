@@ -6,7 +6,7 @@ import CoreError from '../../../../core/errors/CoreError';
 @Catch()
 export default class ErrorHandlingFilter implements ExceptionFilter
 {
-    catch(exception: unknown, host: ArgumentsHost)
+    catch(exception: unknown, host: ArgumentsHost): void
     {
         const ctx = host.switchToHttp();
         const res = ctx.getResponse();
@@ -19,7 +19,7 @@ export default class ErrorHandlingFilter implements ExceptionFilter
         const { status, errorResponse, logMessage } = handleError(exception);
 
         if (logMessage) {
-            let uri = `${req.method} ${req.protocol}://${req.headers.host}${req.url}`;
+            const uri = `${req.method} ${req.protocol}://${req.headers.host}${req.url}`;
             log(uri, logMessage);
         }
 

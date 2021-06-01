@@ -1,4 +1,4 @@
-import CharacterEntity from '../../entities/CharacterEntity';
+import ICharacterEntity from '../../entities/ICharacterEntity';
 import CharacterFeature from './CharacterFeature';
 
 /**
@@ -6,7 +6,7 @@ import CharacterFeature from './CharacterFeature';
  */
 export default class ListCharacters extends CharacterFeature
 {
-    execute(params: any): Promise<CharacterEntity[]>
+    execute(params: any): Promise<ICharacterEntity[]>
     {
         const filters: any = {};
 

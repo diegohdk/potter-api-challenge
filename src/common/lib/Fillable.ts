@@ -8,7 +8,7 @@ export default class Fillable
      *
      * @param {object} values Source collection.
      */
-    fill(values: object)
+    fill(values: any): void
     {
         Object.entries(values).forEach((entry: [string, any]) => {
             if (typeof this[entry[0]] !== 'undefined') {
@@ -24,7 +24,7 @@ export default class Fillable
      *
      * @returns {object} Exported object.
      */
-    export(skip: string[] = []): object
+    export(skip: string[] = []): any
     {
         const data = {};
 

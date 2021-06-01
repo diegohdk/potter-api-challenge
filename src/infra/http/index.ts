@@ -1,13 +1,13 @@
 import IServer from '../IServer';
-import ExpressServer from './express/ExpressServer';
-import NestJSServer from './nestjs/NestJSServer';
+import { http as express } from './express/ExpressServer';
+import { http as nestjs } from './nestjs/NestJSServer';
 
 let server: IServer;
 
 if (process.env.HTTP === 'express') {
-    server = new ExpressServer();
+    server = express;
 } else {
-    server = new NestJSServer();
+    server = nestjs;
 }
 
 export {

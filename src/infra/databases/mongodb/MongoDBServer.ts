@@ -32,3 +32,5 @@ export default class MongoDBServer implements IServer
         return this.instance;
     }
 }
+
+export const db = new MongoDBServer();

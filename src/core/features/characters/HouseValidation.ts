@@ -12,6 +12,10 @@ export default class HouseValidation
 
     async validateHouse(id: string): Promise<void>
     {
+        if (!id) {
+            throw new InvalidHouseError('Invalid house ID');
+        }
+
         const invalid = await this.houseApi.validateHouse(id);
 
         if (invalid !== true) {

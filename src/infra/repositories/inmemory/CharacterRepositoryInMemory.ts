@@ -3,16 +3,16 @@ import NotFoundError from '../../../common/errors/NotFoundError';
 import CharacterEntity from '../../../core/entities/CharacterEntity';
 import ICharacterRepository from '../../../core/repositories/ICharacterRepository';
 import Collection from '../../databases/inmemory/Collection';
-import MemoryDatabaseServer from '../../databases/inmemory/MemoryDatabaseServer';
+import { db } from '../../databases/inmemory/MemoryDatabaseServer';
 
 /**
  * Character repository class.
  */
 export default class CharacterRepositoryInMemory implements ICharacterRepository
 {
-    get collection(): Collection<CharacterEntity>
+    private get collection(): Collection<CharacterEntity>
     {
-        return MemoryDatabaseServer.getInstance().getCollection('characters');
+        return db.getCollection('characters');
     }
 
     /**

@@ -23,3 +23,5 @@ export default class NestJSServer extends HttpServer
         return this.app.getHttpServer();
     }
 }
+
+export const http = new NestJSServer();

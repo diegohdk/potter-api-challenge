@@ -6,7 +6,7 @@ import ICharacterRepository from '../../../../core/repositories/ICharacterReposi
 import IHouseRepository from '../../../../core/repositories/IHouseRepository';
 import { default as repos } from '../../../repositories';
 
-export default (router: Router) => {
+export default (router: Router): void => {
     const { CharacterRepository, HouseRepository } = repos;
     const characterRepo: ICharacterRepository = new CharacterRepository();
     const houseRepo: IHouseRepository = new HouseRepository();

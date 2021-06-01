@@ -1,4 +1,4 @@
-export default function mixin(baseCtor: any) {
+export default function mixin(baseCtor: any): (targetClass: any) => void {
     return targetClass => {
         Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
             Object.defineProperty(

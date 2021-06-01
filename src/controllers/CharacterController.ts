@@ -7,6 +7,7 @@ import IHouseAPI from '../core/features/characters/IHouseAPI';
 import Context from '../adapters/http/Context';
 import ICharacterRepository from '../core/repositories/ICharacterRepository';
 import Controller from './Controller';
+import ICharacterEntity from '../core/entities/ICharacterEntity';
 
 /**
  * Character controller.
@@ -21,24 +22,24 @@ export default class CharacterController extends Controller<ICharacterRepository
         this.houseAPI = houseAPI;
     }
 
-    setHouseAPI(houseAPI: IHouseAPI)
+    setHouseAPI(houseAPI: IHouseAPI): void
     {
         this.houseAPI = houseAPI;
     }
 
-    async index(context: Context): Promise<any[]>
+    async index(context: Context): Promise<ICharacterEntity[]>
     {
         const feature = new ListCharacters(this.repo);
         return await feature.execute(context?.query);
     }
 
-    async read(context: Context): Promise<any>
+    async read(context: Context): Promise<ICharacterEntity>
     {
         const feature = new GetCharacter(this.repo);
         return await feature.execute(context.params.id);
     }
 
-    async create(context: Context): Promise<any>
+    async create(context: Context): Promise<ICharacterEntity>
     {
         const feature = new CreateCharacter(this.repo);
         feature.setHouseAPI(this.houseAPI);
