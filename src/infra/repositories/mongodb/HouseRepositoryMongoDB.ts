@@ -49,7 +49,7 @@ export default class HouseRepositoryMongoDB implements IHouseRepository
      */
     async exists(id: string): Promise<boolean>
     {
-        const exists = await HouseModel.exists({ id });
+        const exists = await HouseModel.exists({ uid: id });
         return exists === true;
     }
 }

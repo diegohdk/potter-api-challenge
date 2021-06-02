@@ -2,14 +2,11 @@ import getDirFiles from '../../../../common/utils/getDirFiles';
 
 function importRoutes(): any[] {
     const files: string[] = getDirFiles(__dirname);
-    const routes: any[] = [];
 
-    files.forEach(async (fileName: string) => {
-        const route: any = await import(`./${fileName}`);
-        routes.push(route.default);
+    return files.map((fileName: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        return require(`./${fileName}`).default;
     });
-
-    return routes;
 }
 
 export default importRoutes();

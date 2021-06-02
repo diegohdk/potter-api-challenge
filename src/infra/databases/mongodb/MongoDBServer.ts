@@ -1,8 +1,8 @@
-import IServer from '../../IServer';
+import Server from '../../Server';
 import log from '../../../common/utils/log';
 import mongoose, { ConnectOptions, Mongoose } from 'mongoose';
 
-export default class MongoDBServer implements IServer
+export default class MongoDBServer extends Server
 {
     private instance: Mongoose;
 
@@ -15,6 +15,10 @@ export default class MongoDBServer implements IServer
 
     async connect(): Promise<void>
     {
+        if (this.connected) {
+            return;
+        }
+
         const opts: ConnectOptions = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -25,6 +29,7 @@ export default class MongoDBServer implements IServer
         this.instance = await mongoose.connect(process.env.DB_URI, opts);
         this.instance.connection.on('disconnected', () => log('Disconnected from DB'));
         log('Connected to DB', process.env.DB_URI);
+        this.connected = true;
     }
 
     getEngine(): any

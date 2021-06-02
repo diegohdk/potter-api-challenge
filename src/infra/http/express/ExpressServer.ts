@@ -5,7 +5,7 @@ import log from '../../../common/utils/log';
 import routes from './routes';
 import { Server } from 'http';
 import { handleError } from '../../../common/utils/errors';
-import HttpServer from '../HttpServer';
+import { default as HttpServer } from '../../Server';
 
 export default class ExpressServer extends HttpServer
 {
@@ -85,11 +85,16 @@ export default class ExpressServer extends HttpServer
 
     async connect(): Promise<void>
     {
+        if (this.connected) {
+            return;
+        }
+
         await this.initialize();
 
         const server: Server = this.app.listen(process.env.PORT, () => log(`HTTP server listening on port ${process.env.PORT}`));
         this.app.set('server', server);
         server.on('error', (error: Error) => this.app.emit('error', error));
+        this.connected = true;
     }
 
     getEngine(): Express

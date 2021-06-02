@@ -9,6 +9,7 @@ const isMongoDB = process.env.DB === 'mongodb';
 
 export const mochaHooks = {
     async beforeAll(): Promise<void> {
+        process.env.PORT = '3001';
         await http.initialize();
         await db.initialize();
         this.app = http.getEngine();

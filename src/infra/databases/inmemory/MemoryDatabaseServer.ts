@@ -1,7 +1,7 @@
 import log from '../../../common/utils/log';
 import ICharacterEntity from '../../../core/entities/ICharacterEntity';
 import IHouseEntity from '../../../core/entities/IHouseEntity';
-import IServer from '../../IServer';
+import Server from '../../Server';
 import Collection from './Collection';
 import IEntityType from './IEntityType';
 
@@ -11,12 +11,13 @@ interface ICollections
     houses: Collection<IHouseEntity>
 }
 
-export default class MemoryDatabaseServer implements IServer
+export default class MemoryDatabaseServer extends Server
 {
     private collections: ICollections;
 
     constructor()
     {
+        super();
         this.collections = {
             characters: new Collection<ICharacterEntity>(),
             houses: new Collection<IHouseEntity>()
@@ -35,8 +36,13 @@ export default class MemoryDatabaseServer implements IServer
 
     async connect(): Promise<void>
     {
+        if (this.connected) {
+            return;
+        }
+
         this.initialize();
         log('In-memory DB ready');
+        this.connected = true;
     }
 
     getEngine(): any
